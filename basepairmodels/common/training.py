@@ -53,7 +53,7 @@ import warnings
 
 from basepairmodels.common import model_archs
 from basepairmodels.cli.bpnetutils import *
-from basepairmodels.cli.losses import MultichannelMultinomialNLL
+from basepairmodels.cli.losses import MultichannelMultinomialNLL, NegativePearsonCorrelation
 from basepairmodels.cli import experiments
 from basepairmodels.cli import logger
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
@@ -283,10 +283,17 @@ def train_and_validate(input_params, output_params, genome_params,
     logging.debug("Compiling model")
     logging.info("counts_loss_weight - {}".format(
         network_params['counts_loss_weight']))
-    model.compile(Adam(learning_rate=hyper_params['learning_rate']),
-                    loss=[MultichannelMultinomialNLL(
-                        train_gen._num_tasks), 'mse'], 
-                    loss_weights=[1, network_params['counts_loss_weight']])
+
+    if network_params['pearson_count_loss']:
+        model.compile(Adam(learning_rate=hyper_params['learning_rate']),
+                        loss=[MultichannelMultinomialNLL(
+                            train_gen._num_tasks), NegativePearsonCorrelation()], 
+                        loss_weights=[1, network_params['counts_loss_weight']])
+    else:
+        model.compile(Adam(learning_rate=hyper_params['learning_rate']),
+                        loss=[MultichannelMultinomialNLL(
+                            train_gen._num_tasks), 'mse'], 
+                        loss_weights=[1, network_params['counts_loss_weight']])
     
     # begin time for training
     t1 = time.time()
