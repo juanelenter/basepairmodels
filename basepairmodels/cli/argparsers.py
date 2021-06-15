@@ -57,6 +57,10 @@ def training_argsparser():
                         help="Weight for counts mse loss",
                         default=100.0)
     
+    parser.add_argument('--pearson-count-loss', action='store_true', 
+                    help="specify if the model loss uses "
+                    "pearson corr instead of MSE.")
+  
     parser.add_argument('--control-smoothing', default=[[7.5, 80]])
     
     # parallelization params

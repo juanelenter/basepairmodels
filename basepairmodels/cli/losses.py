@@ -38,3 +38,23 @@ class MultichannelMultinomialNLL(object):
 
     def get_config(self):
         return {"n": self.n}
+
+def negative_pearson_corr(true_counts, pred_counts):
+    """Compute the negative pearson correlation
+    Also valid trying 1-r instead of r so that 0<loss<2
+    """
+    return -1.0*tfp.stats.correlation(true_counts, pred_counts)
+
+class NegativePearsonCorrelation(object):
+    """ Class to compute combined loss from 'n' tasks
+     
+    """
+    
+    def __init__(self):
+        self.__name__ = "NegativePearsonCorrelation"
+
+    def __call__(self, true_counts, pred_counts):
+        return negative_pearson_corr(true_counts, pred_counts)
+
+    def get_config(self):
+        return {}

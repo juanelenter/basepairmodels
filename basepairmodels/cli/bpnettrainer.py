@@ -101,7 +101,8 @@ def main():
     network_params['filters'] = args.filters
     network_params['counts_loss_weight'] = args.counts_loss_weight
     network_params['control_smoothing'] = args.control_smoothing
-    
+    network_params['pearson_count_loss'] = args.pearson_count_loss
+
     if not os.path.exists(output_params['output_dir']):
         raise quietexception.QuietException(
             "Directory {} does not exist".format(output_params['output_dir']))
