@@ -42,7 +42,7 @@ import time
 from basepairmodels.cli import argparsers
 from basepairmodels.cli import bigwigutils
 from basepairmodels.cli import logger
-from basepairmodels.cli.losses import MultichannelMultinomialNLL
+from basepairmodels.cli.losses import MultichannelMultinomialNLL, NegativePearsonCorrelation
 from basepairmodels.cli.losses import multinomial_nll
 from mseqgen import quietexception
 from mseqgen import generators
@@ -361,7 +361,7 @@ def predict_main():
     # predict
     logging.info("Loading {}".format(args.model))
     with CustomObjectScope({'MultichannelMultinomialNLL': 
-                            MultichannelMultinomialNLL}):
+                            MultichannelMultinomialNLL, 'NegativePearsonCorrelation': NegativePearsonCorrelation}):
             
         predict(args, input_data, pred_dir)
     
