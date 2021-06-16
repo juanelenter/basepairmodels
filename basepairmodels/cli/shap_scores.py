@@ -12,7 +12,7 @@ from basepairmodels.cli.argparsers import shap_scores_argsparser
 from basepairmodels.cli.bpnetutils import *
 from basepairmodels.cli.shaputils import *
 from basepairmodels.cli.logger import *
-from basepairmodels.cli.losses import MultichannelMultinomialNLL
+from basepairmodels.cli.losses import MultichannelMultinomialNLL, NegativePearsonCorrelation
 from mseqgen import quietexception
 from mseqgen.sequtils import one_hot_encode
 from mseqgen.utils import gaussian1D_smoothing
@@ -369,7 +369,7 @@ def shap_scores_main():
     # shap
     logging.info("Loading {}".format(args.model))
     with CustomObjectScope({'MultichannelMultinomialNLL': 
-                            MultichannelMultinomialNLL}):
+                            MultichannelMultinomialNLL,'NegativePearsonCorrelation': NegativePearsonCorrelation}):
             
         shap_scores(args, shap_scores_dir)
 

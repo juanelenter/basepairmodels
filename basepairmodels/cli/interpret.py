@@ -17,7 +17,7 @@ from basepairmodels.cli.batchgenutils import *
 from basepairmodels.cli.bpnetutils import *
 from basepairmodels.cli.shaputils import *
 from basepairmodels.cli.logger import *
-from basepairmodels.cli.losses import MultichannelMultinomialNLL
+from basepairmodels.cli.losses import MultichannelMultinomialNLL, NegativePearsonCorrelation
 
 from mseqgen import quietexception
 from mseqgen.utils import gaussian1D_smoothing
@@ -321,7 +321,7 @@ def interpret_main():
     # interpret
     logging.info("Loading {}".format(args.model))
     with CustomObjectScope({'MultichannelMultinomialNLL': 
-                            MultichannelMultinomialNLL}):
+                            MultichannelMultinomialNLL,'NegativePearsonCorrelation': NegativePearsonCorrelation}):
             
         interpret(args, interpret_dir)
 

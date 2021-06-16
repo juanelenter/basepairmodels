@@ -47,7 +47,7 @@
 
 from basepairmodels.cli.argparsers import embeddings_argsparser
 from basepairmodels.cli.logger import *
-from basepairmodels.cli.losses import MultichannelMultinomialNLL, multinomial_nll
+from basepairmodels.cli.losses import MultichannelMultinomialNLL, multinomial_nll, NegativePearsonCorrelation
 from mseqgen.sequtils import one_hot_encode
 from mseqgen.quietexception import QuietException
 
@@ -290,7 +290,7 @@ def embeddings_main():
     init_logger(logfname)
 
     with CustomObjectScope({'MultichannelMultinomialNLL': 
-                            MultichannelMultinomialNLL}):
+                            MultichannelMultinomialNLL,'NegativePearsonCorrelation': NegativePearsonCorrelation}):
         
         # load the model 
         model = load_model(args.model)
